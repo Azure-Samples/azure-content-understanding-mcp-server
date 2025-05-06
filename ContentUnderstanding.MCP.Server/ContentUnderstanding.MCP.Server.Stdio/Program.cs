@@ -27,6 +27,7 @@ builder.Services.AddSingleton(sp => KernelPluginFactory.CreateFromType<DummyTool
 
 var apiKey = builder.Configuration["Ynab:ApiKey"];
 
+// Use this to talk to the Content Understanding REST API
 builder.Services.AddHttpClient();
 
 var kernel = builder.Services.BuildServiceProvider().GetRequiredService<Kernel>();
