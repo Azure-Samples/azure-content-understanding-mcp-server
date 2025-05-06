@@ -7,4 +7,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Karambolo.Extensions.Logging.File" Version="3.6.3" />
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="9.4.3-preview.1.25230.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.48.0" />
+    <PackageReference Include="ModelContextProtocol" Version="0.1.0-preview.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ContentUnderstanding.MCP.Tools\ContentUnderstanding.MCP.Tools.csproj" />
+  </ItemGroup>
+
 </Project>
