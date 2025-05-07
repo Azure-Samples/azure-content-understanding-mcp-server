@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
-using System.Net.Http.Headers;
 using ContentUnderstanding.MCP.Server.Stdio.Extensions;
 using ContentUnderstanding.MCP.Tools;
 
@@ -23,9 +22,15 @@ builder.Services.AddLogging(configure =>
 
 builder.Services.AddKernel();
 
-builder.Services.AddSingleton(sp => KernelPluginFactory.CreateFromType<DummyTool>(serviceProvider: sp));
+ContentUnderstandingClient contentUnderstandingClient = new(
+    builder.Configuration["ENDPOINT"],
+    builder.Configuration["API_KEY"],
+    builder.Configuration["API_VERSION"]
+);
 
-var apiKey = builder.Configuration["Ynab:ApiKey"];
+builder.Services.AddSingleton(sp => KernelPluginFactory.CreateFromType<RetrieveAnalyzers>(serviceProvider: sp));
+builder.Services.AddSingleton(sp => KernelPluginFactory.CreateFromType<AnalyzeDocument>(serviceProvider: sp));
+builder.Services.AddSingleton(contentUnderstandingClient);
 
 // Use this to talk to the Content Understanding REST API
 builder.Services.AddHttpClient();
