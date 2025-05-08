@@ -24,6 +24,7 @@ Guard.ThrowIfNullOrEmpty(builder.Configuration["STORAGE_CONTAINER_URL"], "STORAG
 Guard.ThrowIfNullOrEmpty(builder.Configuration["ENDPOINT"], "ENDPOINT");
 Guard.ThrowIfNullOrEmpty(builder.Configuration["API_KEY"], "API_KEY");
 Guard.ThrowIfNullOrEmpty(builder.Configuration["API_VERSION"], "API_VERSION");
+Guard.ThrowIfNullOrEmpty(builder.Configuration["ALLOWED_DIRECTORIES"], "ALLOWED_DIRECTORIES");
 
 // Configure logging: read settings from configuration, log to file, set minimum level to Debug
 builder.Services.AddLogging(configure =>
@@ -39,6 +40,7 @@ builder.Services.AddKernel();
 // Register plugin services for document analysis and analyzer retrieval
 builder.Services.AddSingleton(sp => KernelPluginFactory.CreateFromType<RetrieveAnalyzers>(serviceProvider: sp));
 builder.Services.AddSingleton(sp => KernelPluginFactory.CreateFromType<AnalyzeDocument>(serviceProvider: sp));
+builder.Services.AddSingleton(sp => KernelPluginFactory.CreateFromObject(new FolderPermissions(builder.Configuration["ALLOWED_DIRECTORIES"].Split(";"))));
 
 // Register the ContentUnderstandingClient and BlobContainerClient as singletons
 builder.Services.AddSingleton(new BlobContainerClient(
